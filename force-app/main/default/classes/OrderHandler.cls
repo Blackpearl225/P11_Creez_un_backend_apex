@@ -21,23 +21,7 @@ public with sharing class OrderHandler{
             bool=true;
         else 
             bool=false;
-        /*
-		if (!ord.isEmpty()){
-			for (AggregateResult od : ord){
-				Integer total = (Integer)od.get('total');
-				System.debug('Order ==> ' + od);
-				System.debug('Account Name : ' + od.get('Name')+' ==> ' + 'Number of Orders : ' + od.get('total'));
-				if (total == 1)
-					bool = true;
-				else
-					bool = false;
-			}
-		} else{
-			system.debug('The list is empty');
-		}
-
-		System.debug(bool);
-        */
+      
 		return bool;
 	}
 
