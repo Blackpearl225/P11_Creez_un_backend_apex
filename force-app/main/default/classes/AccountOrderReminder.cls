@@ -7,12 +7,12 @@ global class AccountOrderReminder implements Schedulable,Database.Batchable<sObj
         for(Task t:tasks){
             accountIds.add(t.AccountId);
         } 
-        // On rêquete sur les comptes qui n'ont pas de tâches et d'orders
+        // Query accounts that have no tasks and orders
         return Database.getQueryLocator([select Id,Name from Account where Id not in (select AccountId from Order) and Id not in:accountIds
                                         ]);
         
     }
-    // Pour chaque compte on crée une tâche de rappel 
+    // For each account create a reminder task
     global void execute(Database.BatchableContext bc, List<Account> scope){
         List<Task> tasks =  new List<Task>();
         for (Account account : scope) {
@@ -47,7 +47,7 @@ global class AccountOrderReminder implements Schedulable,Database.Batchable<sObj
         Database.executeBatch(aor);
         System.debug('Task handler: Schedulable Batch Done');
     }
-    // On exécute le batch le premier lundi de chaque mois
+    // Schedule the bacth to be executed the first monday of each month
     global static void startBackLogScheduler() {
         AccountOrderReminder aor = new AccountOrderReminder();
         String FirstMondayofEveryMonth = '0 0 10 ? * 2#1'; 
