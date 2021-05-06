@@ -1,4 +1,5 @@
 public with sharing class OrderHandler{
+	//check if order has product and return true if so
 	public static boolean OrderHasNoProduct(Id orderId){
 		boolean bool;
 		List<OrderItem> ordItem = [SELECT OrderId
@@ -10,7 +11,7 @@ public with sharing class OrderHandler{
 			bool = false;
             return bool;
 	}
-
+	// check if account has one order and return true if so
 	public static boolean AccountHasOneOrder(Id accountId){
 		boolean bool;
 		AggregateResult[] ord = [SELECT count(id)total, AccountId, Account.Name Name
@@ -24,7 +25,7 @@ public with sharing class OrderHandler{
       
 		return bool;
 	}
-
+	//Check if Account has no order and if so, uncheck the  Account_active_checkbox__c checkbox  to false
 	public static void accountHasNoOrderActive(List<Order> ords){
 		List<Account> accts = new List<Account>();
 		for (order od : ords){
@@ -39,7 +40,7 @@ public with sharing class OrderHandler{
 		}
 		update accts;
 	}
-
+	// Check if all account has order and if so check the Account_active_checkbox__c checkbox  to true
 	public static void accountHasOrderActive(List<Order> ords){
 		List<Account> acctss = new List<Account>();
 		for (order o : ords){
@@ -52,7 +53,7 @@ public with sharing class OrderHandler{
 		}
 		update acctss;
 	}
-
+	// check if order has no product and throw an alert when trying to actived it 
 	public static void orderWithNoProductError(List<Order> ords){
 		for (Order ord : ords){
 			boolean ok = OrderHandler.OrderHasNoProduct(ord.Id);
